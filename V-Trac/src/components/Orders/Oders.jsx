@@ -24,6 +24,7 @@ import { DatePicker } from "@progress/kendo-react-dateinputs";
 import { FloatingLabel } from "@progress/kendo-react-labels";
 import { Input, Checkbox } from "@progress/kendo-react-inputs";
 import { filterBy } from "@progress/kendo-data-query";
+import axios from "axios";
 load(
   likelySubtags,
   currencyData,
@@ -39,22 +40,11 @@ import { esMessages } from "./es.js";
 loadMessages(esMessages, "es-ES");
 import Axios from "axios";
 import { process } from "@progress/kendo-data-query";
-import { orders } from "./order.js";
+//import { orders } from "./order.js";
 import { treeToFlat } from "@progress/kendo-react-treelist";
 const DATE_FORMAT = "yyyy-mm-dd hh:mm:ss.SSS";
 const intl = new IntlService("en");
-orders.forEach((o) => {
-  o.orderDate = intl.parseDate(
-    o.orderDate ? o.orderDate : "20/20/2020",
-    DATE_FORMAT
-  );
-  o.shippedDate = o.shippedDate
-    ? undefined
-    : intl.parseDate(
-        o.shippedDate ? o.orderDate.toString() : "20/20/2020",
-        DATE_FORMAT
-      );
-});
+
 const DetailComponent = (props) => {
   const dataItem = props.dataItem;
   return (
@@ -78,11 +68,155 @@ const Grids = () => {
       locale: "es",
     },
   ];
+  const [orders,setOrder]=React.useState([])
   const [dataState, setDataState] = React.useState(null);
   const [currentLocale, setCurrentLocale] = React.useState(locales[0]);
   // const [dataResult, setDataResult] = React.useState(
   //   process(orders, dataState)
   // );
+  // const fetOrders=()=>{
+  //   axios.get("http://localhost:3000/grid").then((res)=>{
+  //   setOrder(res.data.grid)
+  //   }).catch((err)=>{
+
+  //   })
+  // }
+
+  const fetchOrder = async () => {
+    const token = window.localStorage.getItem("token");
+    try {
+      const apiUrl = "https://fs-tnr-tps-dev-api.azurewebsites.net/api/DocumentManagement/GetLast30DaysDocumentRequests";
+
+      const response = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+          "Content-Type": "application/json",
+        },
+      });
+
+      const responseData = await response.json();
+      setOrder([{
+        TransactionId: 1005211,
+        RequestNumber: 442,
+        VIN: "AUTOVIN500066",
+        Customer: "HERTZ",
+        Status: "Duplicate",
+        TransactionType: "",
+        TrackingNumber: "DUMMYDATA1234",
+        DMVState: "XX",
+        LienHolder: null,
+        Registrant: null,
+        Owner: null,
+        ReceivedDate: "2023-02-08T18:19:30.0423617",
+        SVRSImportNumber: null,
+        SVRSCustomerNumber: "1803",
+        ModelYear: 2013,
+        Make: "Buickkk",
+        BodyType: "Sedan",
+        Model: "Regal",
+        Weight: null,
+        CurbWeight: 3439,
+        Color: null,
+        Color2: null,
+        TitleNumber: null,
+        SalesTax: null,
+        PlateNumber: null,
+        PreviousStateProvinceCode: null,
+        CreatedUser: "HMARNENI",
+        DocumentType: "MSO",
+        Source: "UI PATH",
+        SourceErrorCode: "",
+        SourceErrorDecsription: "",
+        SentToSVRS: false,
+        SentToWIP: false,
+        ClientCode: "HERTZ",
+        TotalRowCount: 1005067,
+        TransactionTypeId: null,
+        StatusId: 4,
+        WorkOrderDetailId: 94,
+        DocumentId: 464,
+        User: null,
+        IsWorkOrderDetailEdited: false,
+        IsVinEdited: false,
+        IsWorkOrderEdited: false,
+        IsUpdatedSuccessfully: false,
+        IsBulkVinDecodeUpdate: false,
+        WorkOrderStatusList: { Value: 4, Text: "Duplicate", Name: null },
+        TransactionTypeList: { Value: 0, Text: "", Name: null },
+        Comments: null,
+      }])
+    } catch (error) {
+      setOrder([{
+        TransactionId: 1005211,
+        RequestNumber: 442,
+        VIN: "AUTOVIN500066",
+        Customer: "HERTZ",
+        Status: "Duplicate",
+        TransactionType: "",
+        TrackingNumber: "DUMMYDATA1234",
+        DMVState: "XX",
+        LienHolder: null,
+        Registrant: null,
+        Owner: null,
+        ReceivedDate: "2023-02-08T18:19:30.0423617",
+        SVRSImportNumber: null,
+        SVRSCustomerNumber: "1803",
+        ModelYear: 2013,
+        Make: "Buickkk",
+        BodyType: "Sedan",
+        Model: "Regal",
+        Weight: null,
+        CurbWeight: 3439,
+        Color: null,
+        Color2: null,
+        TitleNumber: null,
+        SalesTax: null,
+        PlateNumber: null,
+        PreviousStateProvinceCode: null,
+        CreatedUser: "HMARNENI",
+        DocumentType: "MSO",
+        Source: "UI PATH",
+        SourceErrorCode: "",
+        SourceErrorDecsription: "",
+        SentToSVRS: false,
+        SentToWIP: false,
+        ClientCode: "HERTZ",
+        TotalRowCount: 1005067,
+        TransactionTypeId: null,
+        StatusId: 4,
+        WorkOrderDetailId: 94,
+        DocumentId: 464,
+        User: null,
+        IsWorkOrderDetailEdited: false,
+        IsVinEdited: false,
+        IsWorkOrderEdited: false,
+        IsUpdatedSuccessfully: false,
+        IsBulkVinDecodeUpdate: false,
+        WorkOrderStatusList: { Value: 4, Text: "Duplicate", Name: null },
+        TransactionTypeList: { Value: 0, Text: "", Name: null },
+        Comments: null,
+      }])
+    }
+  };
+
+  React.useEffect(()=>{
+    fetchOrder()
+  },[])
+  if(orders&&orders.length&&orders.length>0){
+    orders.forEach((o) => {
+      o.orderDate = intl.parseDate(
+        o.orderDate ? o.orderDate : "20/20/2020",
+        DATE_FORMAT
+      );
+      o.shippedDate = o.shippedDate
+        ? undefined
+        : intl.parseDate(
+            o.shippedDate ? o.orderDate.toString() : "20/20/2020",
+            DATE_FORMAT
+          );
+    });
+    }
   const dataStateChange = (event) => {
     setDataResult(process(orders, event.dataState));
     setDataState(event.dataState);

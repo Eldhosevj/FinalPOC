@@ -24,7 +24,7 @@ module.exports = {
       filename: "remoteEntry.js",
       exposes: {
         "./Vtrack":"./src/components/Pages/VtraceDataPage.js",
-        "./Orders":"./src/components/Grid/Grid.jsx",
+        "./Orders":"./src/components/Orders/Oders.jsx",
         "./Reports":"./src/components/Reports/Reports.js",
         "./Logs":"./src/components/Logs/Logs.js"
       },

@@ -3702,5 +3702,5 @@ const orders = [
   },
 ];
 module.exports = {
-  orders,
+  orders
 };

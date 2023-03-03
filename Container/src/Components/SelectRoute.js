@@ -16,6 +16,7 @@ import ErrorBoundaryDocumentView from "../error/Document/ErrorBoundaryDocumentVi
 import ErrorBoundary from "../error/ErrorBoundary";
 const SelectRoute = (props) => {
   const url = props.url;
+  const token=window.localStorage.getItem("token")
   const component = () => {
     if (url == "/Orders") {
       return (
@@ -29,7 +30,7 @@ const SelectRoute = (props) => {
               </h2>
             }
           >
-            <Orders />
+            <Orders token={token}/>
           </ErrorBoundaryVtrackOrders>
         </Suspense>
       );
@@ -46,7 +47,7 @@ const SelectRoute = (props) => {
               </h2>
             }
           >
-            <Reports />
+            <Reports token={token}/>
           </ErrorBoundaryVtrackReports>
         </Suspense>
       );
@@ -63,7 +64,7 @@ const SelectRoute = (props) => {
               </h2>
             }
           >
-            <Logs />
+            <Logs token={token}/>
           </ErrorBoundaryVtrackLogs>
         </Suspense>
       );
@@ -79,7 +80,7 @@ const SelectRoute = (props) => {
               </h2>
             }
           >
-            <Customer />
+            <Customer token={token}/>
           </ErrorBoundaryCustomers>
         </Suspense>
       );
@@ -95,7 +96,7 @@ const SelectRoute = (props) => {
               </h2>
             }
           >
-            <RecievedShipment />
+            <RecievedShipment token={token}/>
           </ErrorBoundaryRecievedShipment>
         </Suspense>
       );
@@ -111,7 +112,7 @@ const SelectRoute = (props) => {
               </h2>
             }
           >
-            <ViewShipment />
+            <ViewShipment token={token}/>
           </ErrorBoundaryViewShipment>
         </Suspense>
       );
@@ -127,7 +128,7 @@ const SelectRoute = (props) => {
               </h2>
             }
           >
-            <View />
+            <View token={token}/>
           </ErrorBoundaryDocumentView>
         </Suspense>
       );

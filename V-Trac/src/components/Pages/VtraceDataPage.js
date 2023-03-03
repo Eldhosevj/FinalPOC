@@ -4,9 +4,11 @@ import Reports from '../Reports/Reports';
 
 import WelcomePage from '../WelcomeVtracData/WelcomeVtracData';
 import SideNavBar from '../SidebarNavbar/SideNavBar.jsx';
-import Grids from '../Grid/Grid.jsx';
+import Orders from '../Orders/Oders.jsx';
 const VtracDataPage=()=>{
   const [route, setRoute] = useState("null");
+  const token=window.localStorage.getItem("token")
+
 
     const navigationClicked = (url) => {
         setRoute(url)
@@ -14,17 +16,17 @@ const VtracDataPage=()=>{
       const component = (url) => {
         if (url == "/Orders") {
           return (
-              <Grids/>
+              <Orders token={token}/>
           );
           }
         if (url == "/Logs") {
           return (
-              <Logs />
+              <Logs token={token}/>
           );
           }
         if (url == "/Reports") {
           return (
-              <Reports/>
+              <Reports token={token}/>
           );
           }
         else{
